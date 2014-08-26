@@ -1,8 +1,29 @@
+<%
+
+require 'cgi'
+require 'uri'
+
+begin
+  uri = URI.parse(ENV["REDIS_URL"])
+rescue URI::InvalidURIError
+  raise "Invalid REDIS_URL"
+end
+
+raise "No RACK_ENV or RAILS_ENV found" unless ENV["RAILS_ENV"] || ENV["RACK_ENV"]
+
+def attribute(name, value)
+  value ? "#{name}: \"#{value}\"" : ""
+end
+
+db = (uri.path || "").split("/")[1] || "0"
+
+%>
+
 defaults: &defaults
-  host: <%= GlobalSetting.redis_host %>
-  port: <%= GlobalSetting.redis_port %>
-  password: <%= GlobalSetting.redis_password %>
-  db: <%= GlobalSetting.redis_db %>
+  <%= attribute "host",     uri.host %>
+  <%= attribute "port",     uri.port %>
+  <%= attribute "password", uri.password %>
+  <%= attribute "db",       db %>
 
 development:
   <<: *defaults

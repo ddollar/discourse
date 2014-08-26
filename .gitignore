@@ -104,3 +104,6 @@ config/version.rb
 bundler_stubs/*
 
 vendor/bundle/*
+
+# tug
+.tug
