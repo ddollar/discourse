@@ -6,6 +6,10 @@ defaults: &defaults
 
 development:
   <<: *defaults
+  host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>
+  port: <%= ENV["REDIS_PORT_6379_TCP_PORT"] %>
+  password: ~
+  db: 0
 
 profile:
   <<: *defaults
